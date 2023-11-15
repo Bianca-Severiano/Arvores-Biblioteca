@@ -8,169 +8,185 @@ public class ArvoreChar {
 		raiz = null;
 	}
 	
-	public void insert(char valor) {
+	public void insert(char caractere) {
+		caractere = Character.toUpperCase(caractere);
 		NoArvoreChar no = new NoArvoreChar();
-		no.dado = valor;
+		no.dado = caractere;
 		no.esquerda = null;
-		no.direita = null;
-		insertLeaf(raiz, no);
+		no.esquerda = null;
+		insertleaf(no, raiz);
 	}
-
-	private void insertLeaf(NoArvoreChar raizSub, NoArvoreChar no) {
-		if (raiz == null) {
+	
+	private void insertleaf(NoArvoreChar no, NoArvoreChar raizSubArvore) {
+		if (raiz==null) {
 			raiz = no;
-		} else {
-
-			if (no.dado < raizSub.dado) {
-
-				if (raizSub.esquerda == null) {
-					raizSub.esquerda = no;
-				} else {
-					insertLeaf(raizSub.esquerda, no);
+		}
+		else {
+			if (no.dado < raizSubArvore.dado) {
+				if (raizSubArvore.esquerda == null) {
+					raizSubArvore.esquerda = no;
+				}else {
+					insertleaf(no, raizSubArvore.esquerda);
 				}
 			}
-
-			if (no.dado > raizSub.dado) {
-				if (raizSub.direita == null) {
-					raizSub.direita = no;
-				} else {
-					insertLeaf(raizSub.direita, no);
+			if (no.dado > raizSubArvore.dado) {
+				if (raizSubArvore.direita == null) {
+					raizSubArvore.direita = no;
+				}else {
+					insertleaf(no, raizSubArvore.direita);
 				}
 			}
 		}
-
+		
 	}
 	
-	public void Search(char valor) throws Exception {
+	public void search (char caractere) throws Exception {
+		caractere = Character.toUpperCase(caractere);
 		try {
-			NoArvoreChar no = nodeSearch(raiz, valor);
-			int level = nodeLevel(raiz, valor);
-			System.out.println("Dado: " + no.dado + " - Nível: " + level);
+			NoArvoreChar no = nodeSearch(raiz, caractere);
+			int level = nodeLevel(raiz, caractere);
+			System.out.println(no.dado + ": Nível "+level);
 		} catch (Exception e) {
-			throw new Exception("Valor não existe");
+			throw new Exception(caractere+": Não existente");
 		}
-
 	}
-	
-	private int nodeLevel(NoArvoreChar raizSub, char valor) throws Exception {
+
+	private int nodeLevel(NoArvoreChar raizSubArvore, char caractere) throws Exception {
 		if (raiz == null) {
-			throw new Exception("Arvore vazia");
-		} else if (raizSub.dado > valor) {
-			return 1 + nodeLevel(raizSub.esquerda, valor);
-		} else if (raizSub.dado < valor) {
-			return 1 + nodeLevel(raizSub, valor);
-		} else {
+			throw new Exception("Árvore vazia");
+		}
+		else if (raizSubArvore.dado > caractere) {
+			return 1 + nodeLevel(raizSubArvore.esquerda, caractere);
+		}
+		else if (raizSubArvore.dado < caractere) {
+			return 1 + nodeLevel(raizSubArvore.direita, caractere);
+		}
+		else {
 			return 0;
 		}
-
 	}
-	
-	private NoArvoreChar nodeSearch(NoArvoreChar raizSub, char valor) throws Exception {
+
+	private NoArvoreChar nodeSearch(NoArvoreChar raizSubArvore, char caractere) throws Exception {
 		if (raiz == null) {
-			throw new Exception("Arvore vazia");
-		} else if (raizSub.dado > valor) {
-			return nodeSearch(raizSub.esquerda, valor);
-		} else if (raizSub.dado < valor) {
-			return nodeSearch(raizSub.direita, valor);
-		} else {
-			return raizSub;
+			throw new Exception("Árvore vazia");
+		}
+		else if (raizSubArvore.dado > caractere) {
+			return nodeSearch(raizSubArvore.esquerda, caractere);
+		}
+		else if (raizSubArvore.dado < caractere) {
+			return nodeSearch(raizSubArvore.direita, caractere);
+		}
+		else {
+			return raizSubArvore;
 		}
 	}
 	
 	public void prefixSearch() throws Exception {
+		System.out.print("Pré-ordem: ");
 		prefix(raiz);
+		System.out.println("");
 	}
-	
-	private void prefix(NoArvoreChar raizSub) throws Exception {
+
+	private void prefix(NoArvoreChar raizSubArvore) throws Exception {
 		if (raiz == null) {
-			throw new Exception("Arvore vazia");
-		} else {
-			System.out.println(raizSub.dado);
-			System.out.println(" ");
-
-			if (raizSub.esquerda != null) {
-				prefix(raizSub.esquerda);
-			}
-
-			if (raizSub.direita != null) {
-				prefix(raizSub.direita);
-			}
+			throw new Exception("Árvore vazia");
+		}
+		System.out.print(raizSubArvore.dado+" ");
+		if (raizSubArvore.esquerda!=null) {
+			prefix(raizSubArvore.esquerda);
+		}
+		if (raizSubArvore.direita!=null) {
+			prefix(raizSubArvore.direita);
 		}
 	}
 	
 	public void infixSearch() throws Exception {
-		prefix(raiz);
+		System.out.print("Em ordem: ");
+		infix(raiz);
+		System.out.println("");
 	}
-	
-	private void infix(NoArvoreChar raizSub) throws Exception {
+
+	private void infix(NoArvoreChar raizSubArvore) throws Exception {
 		if (raiz == null) {
-			throw new Exception("Arvore vazia");
-		} else {
-
-			if (raizSub.esquerda != null) {
-				infix(raizSub.esquerda);
-			}
-
-			System.out.println(raizSub.dado);
-		
-
-			if (raizSub.direita != null) {
-				infix(raizSub.direita);
-			}
+			throw new Exception("Árvore vazia");
+		}
+		if (raizSubArvore.esquerda!=null) {
+			infix(raizSubArvore.esquerda);
+		}
+		System.out.print(raizSubArvore.dado+" ");
+		if (raizSubArvore.direita!=null) {
+			infix(raizSubArvore.direita);
 		}
 	}
 	
-	public void posSearch() throws Exception {
-		posfix(raiz);
+	public void postfixSearch() throws Exception {
+		System.out.print("Pós-ordem: ");
+		postfix(raiz);
+		System.out.println("");
 	}
-	
-	private void posfix(NoArvoreChar raizSub) throws Exception {
+
+	private void postfix(NoArvoreChar raizSubArvore) throws Exception {
 		if (raiz == null) {
-			throw new Exception("Arvore vazia");
-		} else {
-
-			if (raizSub.esquerda != null) {
-				posfix(raizSub.esquerda);
-			}
-
-			if (raizSub.direita != null) {
-				posfix(raizSub.direita);
-			}
-
-			System.out.println(raizSub.dado);
-			System.out.println(" ");
-
+			throw new Exception("Árvore vazia");
 		}
+		if (raizSubArvore.esquerda!=null) {
+			postfix(raizSubArvore.esquerda);
+		}
+		if (raizSubArvore.direita!=null) {
+			postfix(raizSubArvore.direita);
+		}
+		System.out.print(raizSubArvore.dado+" ");
 	}
 	
-	public void remove(char valor) throws Exception {
+	public void remove(char caractere) throws Exception {
+		caractere = Character.toUpperCase(caractere);
 		try {
-			removeChild(raiz, valor);
+			removeChild(raiz, caractere);
 		} catch (Exception e) {
-			throw new Exception("Valor não existe");
+			throw new Exception("Valor não existente");
 		}
 	}
-	
-	private void removeChild(NoArvoreChar raizSub, char valor) throws Exception {
-		NoArvoreChar no = nodeSearch(raiz, valor);
-		NoArvoreChar pai = nodeParent(null, raiz, valor);
-		if (no.direita != null && no.esquerda != null) {
+
+	private void removeChild(NoArvoreChar raizSubArvore, char caractere) throws Exception{
+		NoArvoreChar no  = nodeSearch(raiz, caractere);
+		NoArvoreChar pai = nodeParent(null, raiz, caractere);
+		if(no.direita != null && no.esquerda != null) {
 			NoArvoreChar noTroca = no.esquerda;
-			while (noTroca.direita != null) {
+			while (noTroca.direita!= null) {
 				noTroca = noTroca.direita;
 			}
-			
 			pai = nodeParent(null, raiz, noTroca.dado);
 			no.dado = noTroca.dado;
-			noTroca.dado = valor;
-			removeOneZeroLeaf(pai, noTroca);
-		} else {
-			removeOneZeroLeaf(pai, no);
+			noTroca.dado = caractere;
+			removeOneOrZeroLeaf(pai, noTroca);
 		}
-
+		else {
+			removeOneOrZeroLeaf(pai, no);
+		}
 	}
 	
-	private void removeOneZeroLeaf(NoArvoreChar pai, NoArvoreChar no) {
+
+	private NoArvoreChar nodeParent(NoArvoreChar pai, NoArvoreChar raizSubArvore, char caractere) throws Exception {
+		if (raiz == null) {
+			throw new Exception("Árvore vazia");
+		}
+		else if (raizSubArvore.dado > caractere) {
+			return nodeParent(raizSubArvore, raizSubArvore.esquerda, caractere);
+		}
+		else if (raizSubArvore.dado < caractere) {
+			return nodeParent(raizSubArvore, raizSubArvore.direita, caractere);
+		}
+		else {
+			if(pai == null) {
+				return raizSubArvore;
+			}
+			else {
+				return pai;
+			}
+		}
+	}
+
+	private void removeOneOrZeroLeaf(NoArvoreChar pai, NoArvoreChar no) {
 		if (no.esquerda == null && no.direita == null) {
 			change(pai, no, null);
 		} else if (no.esquerda == null) {
@@ -178,34 +194,14 @@ public class ArvoreChar {
 		} else if (no.direita == null) {
 			change(pai, no, no.esquerda);
 		}
-
+			
 	}
-	
+
 	private void change(NoArvoreChar pai, NoArvoreChar no, NoArvoreChar novoNo) {
 		if (pai.esquerda != null && pai.esquerda.dado == no.dado) {
 			pai.esquerda = novoNo;
 		} else if (pai.direita.dado == no.dado) {
 			pai.direita = novoNo;
-		}
-
-	}
-	
-	private NoArvoreChar nodeParent(NoArvoreChar parent, NoArvoreChar raizSub, char valor) throws Exception {
-		if (raiz == null) {
-			throw new Exception("Arvore vazia");
-		}
-
-		if (raizSub.dado > valor) {
-			return nodeParent(raizSub, raizSub.esquerda, valor);
-		} else if (raizSub.dado < valor) {
-			return nodeParent(raizSub, raizSub.direita, valor);
-
-		} else {
-			if (parent == null) {
-				return raiz;
-			} else {
-				return parent;
-			}
 		}
 	}
 }
