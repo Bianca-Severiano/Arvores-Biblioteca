@@ -1,4 +1,4 @@
-package br.edu.fateczl.arvore.inteiro.ArvoreChar;
+package br.edu.fateczl.arvore.ArvoreChar;
 
 public class ArvoreChar {
 

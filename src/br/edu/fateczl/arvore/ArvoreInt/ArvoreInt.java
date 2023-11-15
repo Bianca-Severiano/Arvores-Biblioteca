@@ -1,4 +1,4 @@
-package br.edu.fateczl.arvore.inteiro.ArvoreInt;
+package br.edu.fateczl.arvore.ArvoreInt;
 
 public class ArvoreInt {
 
